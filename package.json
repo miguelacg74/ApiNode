@@ -2,10 +2,10 @@
   "name": "helterskelter",
   "version": "1.0.0",
   "description": "",
-  "main": "api.js",
-
+  "main": "server.js",
+ 
   "scripts": {
-    "start": "nodemon api.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",

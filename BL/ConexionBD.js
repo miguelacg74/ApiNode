@@ -3,15 +3,21 @@ class Conexion {
  
 
   constructor() {
-    this.connection = mysql.createConnection({
+    /*this.connection = mysql.createConnection({
       host     : 'localhost',
       port: 3306,
       user     : 'aplicacion',
       password : 'Local_1234',
       database : 'aplicacion'
     });
-   
-  
+   */
+    this.connection = mysql.createConnection({
+      host     : 'localhost',
+      port: 3306,
+      user     : 'arquitectura',
+      password : 'Local_1234',
+      database : 'arquitectura'
+    });
   }
 
    conexion() {

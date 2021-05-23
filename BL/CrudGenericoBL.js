@@ -13,7 +13,7 @@ class CrudGenericoBL {
 
 
 
-   Buscar(req,res,tabla,campos) {
+   Buscar(req,res,tabla,campos,campocriterio) {
     var resultado;
     var {id}=req.params;
     var sql;
@@ -24,7 +24,7 @@ class CrudGenericoBL {
     }
     if (id!=undefined){
 
-      sql=`SELECT ${campos} FROM ${tabla} WHERE id=${id}`
+      sql=`SELECT ${campos} FROM ${tabla} WHERE ${campocriterio}=${id}`
     }
     
     resultado=this.connection.query(sql, function (error, results, fields) {
@@ -32,7 +32,7 @@ class CrudGenericoBL {
         if (results.length>0){
           res.json(results);
         } 
-        else{ return resp.send('no hay resultados');}
+        else{ return res.send('no hay resultados');}
       });
   }
 
