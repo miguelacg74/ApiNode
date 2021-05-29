@@ -7,6 +7,7 @@ const CrudGenericoBL=require("../BL/CrudGenericoBL.js");
 
 var bd= new Conexion();
 var connection = bd.AbrirConexion();
+
 var crudGenerico= new CrudGenericoBL(connection);
 
 router.route('/')
@@ -54,11 +55,13 @@ router.route('/Obtenermenu')
 })
 
 
-router.route('/ObtenerListadoMenuxAplicacion')
-    .post((req,res)=>{
+router.route('/ObtenerListadoMenuxAplicacion').post((req,res)=>{
       var pool = bd.AbrirConexionPool();
-     const sql =`SELECT * FROM MENU WHERE IDAPLICACION='${res.body.idaplicacion}'`;
-          
+
+
+     const sql =`SELECT * FROM MENU WHERE IDAPLICACION='${req.body.idaplicacion}'`;
+    
+
           listado=[];
           var l=[];
           /*ejecuta la primera consulta asincrona */
