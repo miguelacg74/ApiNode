@@ -7,6 +7,8 @@ const CrudGenericoBL=require("./BL/CrudGenericoBL.js");
 const atributo = require("./routes/atributo.js");
 const account = require("./routes/account.js");
 const home = require("./routes/home.js");
+const perfiles = require("./routes/perfiles.js");
+const menu = require("./routes/menu.js");
 /*----------------------------------------------------------------------------------*/
 var bd= new Conexion();
 var connection = bd.AbrirConexion();
@@ -35,7 +37,7 @@ app.use('/',atributo);
 app.use('/atributo',atributo); 
 app.use('/account',account); 
 app.use('/home',home); 
-
-
+app.use('/perfiles',perfiles); 
+app.use('/menu',menu); 
 app.listen(PORT,()  => console.log(`Servicio ejecutando en el Puerto: ${PORT}`));
 
