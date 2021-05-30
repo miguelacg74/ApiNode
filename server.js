@@ -9,6 +9,7 @@ const account = require("./routes/account.js");
 const home = require("./routes/home.js");
 const perfiles = require("./routes/perfiles.js");
 const menu = require("./routes/menu.js");
+const parametro = require("./routes/parametro.js");
 /*----------------------------------------------------------------------------------*/
 var bd= new Conexion();
 var connection = bd.AbrirConexion();
@@ -39,5 +40,6 @@ app.use('/account',account);
 app.use('/home',home); 
 app.use('/perfiles',perfiles); 
 app.use('/menu',menu); 
+app.use('/parametro',parametro); 
 app.listen(PORT,()  => console.log(`Servicio ejecutando en el Puerto: ${PORT}`));
 
