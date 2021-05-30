@@ -13,60 +13,23 @@ var crudGenerico= new CrudGenericoBL(connection);
 router.route('/')
     .get((req,res)=>{
       //  validateID(req.params.id);
-    res.send(' welcome to page API PERFILES ' )
+    res.send(' Bienvenido a la API PAGINA ')
 })
 
-
-
-
-router.route('/ObtenerPerfil').post((req,res)=>{
+router.route('/ObtenerPaginasMenu').post((req,res)=>{
   var filtro='';
   var pool = bd.AbrirConexionPool();
   if ( req.body.perfil != undefined && req.body.perfil != '' ){
     filtro=req.body.perfil;
   }
-  var filtroIdaplicacion=req.body.idaplicacion;
-  var filtroidusuario=req.body.idusuario;
 
-  var sql= `SELECT A.APLICACION,R.IDROL,R.NOMBRE,R.DESCRIPCION,R.CODROL,R.IDAPLICACION,
-  R.ACTIVO FROM ROL R INNER JOIN APLICACION A ON A.IDAPLICACION=R.IDAPLICACION 
-  INNER JOIN APLICACION_USUARIO AU ON AU.IDAPLICACION=A.IDAPLICACION `;
-  
-  if (filtroIdaplicacion!=0 && filtroidusuario==0){
-    if (filtro!=''){
-      sql=sql + ` WHERE R.IDAPLICACION=${filtroIdaplicacion} AND R.NOMBRE LIKE '%${filtro}%'`;
-    }else{
-      sql=sql + ` WHERE R.IDAPLICACION=${filtroIdaplicacion}`;
-    }
-  }
-  else
-  {
-    if (filtro!=''  && filtroidusuario==0 && filtroIdaplicacion==0){
-      sql=sql + ` WHERE  R.NOMBRE LIKE '%${filtro}%'`;
-    }
-  }	
+  var idmenu=req.body.idmenu;
 
-  if (filtroIdaplicacion!=0 && filtroidusuario!=0){
-    if (filtro!=''){
-      sql=sql + ` WHERE R.IDAPLICACION=${filtroIdaplicacion} AND AU.IDUSUARIO= ${filtroidusuario} AND R.NOMBRE LIKE '%${filtro}%'`;
-    }else{
-      sql=sql + ` WHERE R.IDAPLICACION=${filtroIdaplicacion} AND AU.IDUSUARIO= ${filtroidusuario} `;
-    }
-  }
-  else
-  {
-    if (filtro!=''  && filtroidusuario!=0){
-      sql=sql + ` WHERE  R.NOMBRE LIKE '%${filtro}%' AND AU.IDUSUARIO= ${filtroidusuario} `;
-    }
-    if (filtro==''  && filtroidusuario!=0){
-      sql=sql + ` WHERE   AU.IDUSUARIO= ${filtroidusuario} `;
-    }
-  }	
+ 
+   
+    var sql=`SELECT PAGINA.* FROM PAGINA INNER JOIN MENU ON MENU.IDMENU=PAGINA.IDMENU  WHERE MENU.IDMENU=${idmenu}`
 
-  sql=sql + ` GROUP BY A.APLICACION,R.IDROL,
-            R.NOMBRE,R.DESCRIPCION,R.CODROL,
-            R.IDAPLICACION,R.ACTIVO`;
-
+console.log(sql)
   listado=[];
   var l=[];
   /*ejecuta la primera consulta asincrona */
@@ -74,28 +37,27 @@ router.route('/ObtenerPerfil').post((req,res)=>{
     if (error) throw error;
     if (result.length>0){
         for (var i = 0; i < result.length; i++) {
-            var sql1=`SELECT b.* FROM 
-            PAGINAROL a INNER JOIN PAGINA b  
-            on a.idpagina=b.idpagina  
-            WHERE a.IDROL='${result[i].IDROL}'`;
-             var paginarol = await bd.getResult(sql1,pool)
+        
                 const elemento = {
-                  IDROL  	    : result[i].IDROL,
-                  NOMBRE 	    : result[i].NOMBRE,
+                  IDMENU  	: result[i].IDMENU,
+                  IDPAGINA 	: result[i].IDPAGINA,
+                  NOMBRE 	  : result[i].NOMBRE,
                   DESCRIPCION : result[i].DESCRIPCION,
-                  APLICACION 	: result[i].APLICACION,							
-                  ACTIVO 	    : result[i].ACTIVO,
-                  IDAPLIACION : result[i].IDAPLICACION,
-                  CODROL      : result[i].CODROL,
-                  PAGINA_ARRAY: paginarol
+                  IDPADRE 	: result[i].IDPADRE,
+                  MENU 		  : result[i].MENU,
+                  RUTA 		  : result[i].RUTA,
+                  GENERICA 	: result[i].GENERICA,
+                  CSS 		  : result[i].CSS,
                 };
                 listado.push(elemento);
         }
       pool.end() /*cierra el pool de conexion*/
-      res.json(listado);
+      let resultado={'status' :"Success",'url': "Home/Index","data": listado};
+      res.json(resultado);
+      
     } 
     else{
-     res.send('no hay datos')
+     res.send({'status' : "noSuccess",'url' : "","UserDisplayName": "","data": null })
     }
     
   });
@@ -103,7 +65,54 @@ router.route('/ObtenerPerfil').post((req,res)=>{
 })
 
 
-router.route('/CudPerfil').post((req,res)=>{
+router.route('/ObtenerPaginas').post((req,res)=>{
+  var filtro='';
+  var pool = bd.AbrirConexionPool();
+  if ( req.body.perfil != undefined && req.body.perfil != '' ){
+    filtro=req.body.perfil;
+  }
+
+ 
+    var sql=`SELECT PAGINA.* FROM PAGINA   WHERE IDMENU=1`
+
+console.log(sql)
+  listado=[];
+  var l=[];
+  /*ejecuta la primera consulta asincrona */
+  pool.query(sql, async function(error, result) {
+    if (error) throw error;
+    if (result.length>0){
+        for (var i = 0; i < result.length; i++) {
+        
+                const elemento = {
+                  IDMENU  	: result[i].IDMENU,
+                  IDPAGINA 	: result[i].IDPAGINA,
+                  NOMBRE 	  : result[i].NOMBRE,
+                  DESCRIPCION : result[i].DESCRIPCION,
+                  IDPADRE 	: result[i].IDPADRE,
+                  MENU 		  : result[i].MENU,
+                  RUTA 		  : result[i].RUTA,
+                  GENERICA 	: result[i].GENERICA,
+                  CSS 		  : result[i].CSS,
+                };
+                listado.push(elemento);
+        }
+      pool.end() /*cierra el pool de conexion*/
+      let resultado={'status' :"Success",'url': "Home/Index","data": listado};
+      res.json(resultado);
+      
+    } 
+    else{
+     res.send({'status' : "noSuccess",'url' : "","UserDisplayName": "","data": null })
+    }
+    
+  });
+  
+})
+
+
+
+router.route('/CudPagina').post((req,res)=>{
   var pagina_array=req.body.PAGINA_ARRAY; 
 
         if (req.body.IDROL=''){

@@ -12,7 +12,7 @@ var crudGenerico= new CrudGenericoBL(connection);
 router.route('/')
     .get((req,res)=>{
       //  validateID(req.params.id);
-    res.send(' welcome to page API ATRIBUTO , ' + req.params.username)
+    res.send(' welcome to page API ATRIBUTO ');
 })
 
 

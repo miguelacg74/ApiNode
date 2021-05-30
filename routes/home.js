@@ -12,7 +12,7 @@ var crudGenerico= new CrudGenericoBL(connection);
 router.route('/')
     .get((req,res)=>{
       //  validateID(req.params.id);
-    res.send(' welcome to page API HOME , ' + req.params.username)
+    res.send(' Bienvenido a API HOME  ')
 })
 
 

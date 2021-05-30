@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
  router.route('/').get((req,res)=>{
 
-    res.send('welcome to my api ACCOUNT');
+    res.send('bienvenido a api ACCOUNT');
 
  })
  
