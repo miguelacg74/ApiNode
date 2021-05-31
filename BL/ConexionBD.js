@@ -1,7 +1,5 @@
 const mysql=require('mysql');
 class Conexion {
- 
-
   constructor() {
     /*this.connection = mysql.createConnection({
       host     : 'localhost',
@@ -11,7 +9,6 @@ class Conexion {
       database : 'aplicacion'
     });
    */
-    
     this.connection = mysql.createConnection({
       host     : 'localhost',
       port: 3306,
@@ -19,13 +16,10 @@ class Conexion {
       password : 'Local_1234',
       database : 'arquitectura'
     });
-
   }
    conexion() {
-   
     return connection; 
   }
-
   AbrirConexion() {
     this.connection.connect(function(err) {
       if (err) {
@@ -34,25 +28,18 @@ class Conexion {
       }
       //console.log('connected as id ' + this.connection.threadId);
     });
-  
    return this.connection;
   }
-
   AbrirConexionPool() {
     this.pool = mysql.createPool({ 
-
       host     : 'localhost',
       port: 3306,
       user     : 'arquitectura',
       password : 'Local_1234',
       database : 'arquitectura'
-
      });
-
-    
    return this.pool;
   }
-
   getResult(sql,pool){
     return new Promise(function(resolve,reject){
       pool.query(sql, function(err, result){
@@ -64,7 +51,5 @@ class Conexion {
       })
     })
   }
-
 };
-
 module.exports = Conexion;
