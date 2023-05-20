@@ -59,8 +59,8 @@ router.route('/ObtenerPaginasMenu').post((req, res) => {
 router.route('/ObtenerPaginas').post((req, res) => {
   var filtro = '';
   var pool = bd.AbrirConexionPool();
-  if (req.body.perfil != undefined && req.body.perfil != '') {
-    filtro = req.body.perfil;
+  if (req.body.PERFIL != undefined && req.body.PERFIL != '') {
+    filtro = req.body.PERFIL;
   }
   var sql = `SELECT PAGINA.* FROM PAGINA   WHERE IDMENU=1`
   console.log(sql)

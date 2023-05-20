@@ -10,11 +10,12 @@ const perfiles = require("./routes/perfiles.js");
 const menu = require("./routes/menu.js");
 const parametro = require("./routes/parametro.js");
 const pagina = require("./routes/pagina.js");
+const aplicacion = require("./routes/aplicacion.js");
 /*----------------------------------------------------------------------------------*/
 var bd = new Conexion();
 var connection = bd.AbrirConexion();
 var crudGenerico = new CrudGenericoBL(connection);
-const PORT = process.env.PORT || 3050;
+const PORT = process.env.PORT || 8081;
 const app = express();
 app.use(bodyParser.json());
 // configurar cabeceras http
@@ -27,11 +28,12 @@ app.use((req, res, next) => {
 });
 /*implementar los diferentes servicios de la API*/
 app.use('/', atributo);
-app.use('/atributo', atributo);
-app.use('/account', account);
-app.use('/home', home);
-app.use('/perfiles', perfiles);
-app.use('/menu', menu);
-app.use('/parametro', parametro);
-app.use('/pagina', pagina);
+app.use('/DataUploadAPI/atributo', atributo);
+app.use('/DataUploadAPI/account', account);
+app.use('/DataUploadAPI/home', home);
+app.use('/DataUploadAPI/perfiles', perfiles);
+app.use('/DataUploadAPI/menu', menu);
+app.use('/DataUploadAPI/parametro', parametro);
+app.use('/DataUploadAPI/pagina', pagina);
+app.use('/DataUploadAPI/aplicacion', aplicacion);
 app.listen(PORT, () => console.log(`Servicio ejecutando en el Puerto: ${PORT}`));

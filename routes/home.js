@@ -10,7 +10,7 @@ router.route('/')
     //  validateID(req.params.id);
     res.send(' Bienvenido a API HOME  ')
   })
-router.route('/MenuAngular/:login/:idaplicacion').post((req, res) => {
+router.route('/MenuAngular').post((req, res) => {
   var sql = `SELECT 
   P.IDPAGINA,
   P.NOMBRE,
@@ -18,13 +18,15 @@ router.route('/MenuAngular/:login/:idaplicacion').post((req, res) => {
   P.MENU,
   P.RUTA,
   P.GENERICA,
-  P.CSS FROM arquitectura.PAGINA P
-  INNER JOIN arquitectura.PAGINAROL  PR ON P.IDPAGINA=PR.IDPAGINA 
-  AND PR.IDROL IN (SELECT RU.IDROL FROM arquitectura.USUARIO U
-  INNER JOIN  arquitectura.ROL_USUARIO RU ON RU.IDUSUARIO=U.IDUSUARIO
-  WHERE LOGIN='${req.params.login}'  AND IDAPLICACION='${req.params.idaplicacion}')
-  INNER JOIN arquitectura.MENU  M ON M.IDMENU=P.IDMENU  AND M.IDAPLICACION='${req.params.idaplicacion}'
+  P.CSS FROM PAGINA P
+  INNER JOIN PAGINAROL  PR ON P.IDPAGINA=PR.IDPAGINA 
+  AND PR.IDROL IN (SELECT RU.IDROL FROM USUARIO U
+  INNER JOIN  ROL_USUARIO RU ON RU.IDUSUARIO=U.IDUSUARIO
+  WHERE LOGIN='${req.body.LOGIN}'  AND IDAPLICACION='${req.body.IDAPLICACION}')
+  INNER JOIN MENU  M ON M.IDMENU=P.IDMENU  AND M.IDAPLICACION='${req.body.IDAPLICACION}'
   GROUP BY P.IDPAGINA,P.NOMBRE,P.IDPADRE,P.MENU,P.RUTA,P.GENERICA,P.CSS`;
+  
+  console.log(sql)
   resultado = connection.query(sql, function (error, results, fields) {
     if (error) throw error;
     if (results.length > 0) {

@@ -21,11 +21,11 @@ router.route('/CudAtributo')
     .post((req,res)=>{
      const sql ='INSERT INTO ATRIBUTO SET ?';
   const atributoObj={
-        idatributo  :req.body.idatributo,
-        nombretabla  :req.body.nombretabla, 
-        texto :req.body.texto,
-        valor :req.body.valor ,
-        activo :req.body.activo
+        idatributo  :req.body.IDATRIBUTO,
+        nombretabla  :req.body.NOMBRETABLA, 
+        texto :req.body.TEXTO,
+        valor :req.body.VALOR ,
+        activo :req.body.ACTIVO
     }
     connection.query(sql,atributoObj, error=>{
         if (error) throw error;

@@ -13,14 +13,14 @@ router.route('/')
 router.route('/ObtenerParametro').post((req, res) => {
   var filtro = '';
   var pool = bd.AbrirConexionPool();
-  if (req.body.perfil != undefined && req.body.perfil != '') {
-    filtro = req.body.perfil;
+  if (req.body.PERFIL != undefined && req.body.PERFIL != '') {
+    filtro = req.body.PERFIL;
   }
-  var filtroIdaplicacion = req.body.idaplicacion;
-  var filtroidusuario = req.body.idusuario;
-  var filtroDescripcion = req.body.descripcion;
-  var filtroValor = req.body.valor;
-  var filtroNombre = req.body.nombre;
+  var filtroIdaplicacion = req.body.IDAPLICACION;
+  var filtroidusuario = req.body.IDUSUARIO;
+  var filtroDescripcion = req.body.DESCRIPCION;
+  var filtroValor = req.body.VALOR;
+  var filtroNombre = req.body.NOMBRE;
   filtro = ` WHERE IDAPLICACION='${filtroIdaplicacion}'`;
   if (filtroDescripcion != '' && filtroValor != '' && filtroNombre != '' && filtroDescripcion != '' && filtroDescripcion != undefined && filtroValor != undefined && filtroNombre != undefined) {
     filtro = ` WHERE  IDAPLICACION='${filtroIdaplicacion}' AND  DESCRIPCION LIKE '%${filtroDescripcion}%' AND VALOR = '${filtroValor}' AND PARAMETRO LIKE '%${filtroValor}%'`;

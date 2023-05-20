@@ -13,20 +13,38 @@ app.use(bodyParser.json());
 router.route('/').get((req, res) => {
     res.send('bienvenido a api ACCOUNT');
 })
+router.route('/prueba').get((req, res) => {
+    res.send('bienvenido a api ACCOUNT prueba');
+})
+
+
+
+router.route('/loginold').post(async (req, res) => {
+   respuesta = {
+                "status": "success",
+                "url": "Home/Index",
+                "UserDisplayname": "",
+                "Idusuario": ""
+            }
+            res.json(respuesta);
+
+    });
+
 router.route('/login').post(async (req, res) => {
 
     var pool = await bd.AbrirConexionPool();
     var respuesta;
     var sql;
-
-    sql = `SELECT * FROM USUARIO WHERE LOGIN='${req.body.login}' and PASSWORD='${req.body.password}'`
+     console.log(req);
+    sql = `SELECT * FROM USUARIO WHERE LOGIN='${req.body.LOGIN}' and PASSWORD='${req.body.PASSWORD}'`
+   
     pool.query(sql, async function (error, result) {
         if (error) throw error;
         if (result.length == 0) {
             respuesta = {
                 "status": "nosuccess",
                 "url": "",
-                "UserDisplayname": "",
+                "UserDisplayname": sql,
                 "Idusuario": ""
             }
             console.log(respuesta);
@@ -65,8 +83,8 @@ router.route('/ObtenerUsuarios').post((req, res) => {
     if (req.body.perfil != undefined && req.body.perfil != '') {
         filtro = req.body.perfil;
     }
-    var login = req.body.UserName;
-    var password = req.body.Password;
+    var login = req.body.USERNAME;
+    var password = req.body.PASSWORD;
     var idaplicacion = req.body.IDAPLICACION;
     var idusuario = req.body.IDUSUARIO;
     var filtro = "";

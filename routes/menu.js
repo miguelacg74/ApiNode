@@ -47,7 +47,7 @@ router.route('/Obtenermenu')
   })
 router.route('/ObtenerListadoMenuxAplicacion').post((req, res) => {
   var pool = bd.AbrirConexionPool();
-  const sql = `SELECT * FROM MENU WHERE IDAPLICACION='${req.body.idaplicacion}'`;
+  const sql = `SELECT * FROM MENU WHERE IDAPLICACION='${req.body.IDAPLICACION}'`;
   listado = [];
   var l = [];
   /*ejecuta la primera consulta asincrona */

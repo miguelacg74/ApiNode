@@ -12,9 +12,9 @@ class Conexion {
     this.connection = mysql.createConnection({
       host     : 'localhost',
       port: 3306,
-      user     : 'arquitectura',
-      password : 'Local_1234',
-      database : 'arquitectura'
+      user     : 'root',
+      password : 'Ve-123456789',
+      database : 'pruebadb'
     });
   }
    conexion() {
@@ -34,9 +34,9 @@ class Conexion {
     this.pool = mysql.createPool({ 
       host     : 'localhost',
       port: 3306,
-      user     : 'arquitectura',
-      password : 'Local_1234',
-      database : 'arquitectura'
+      user     : 'root',
+      password : 'Ve-123456789',
+      database : 'pruebadb'
      });
    return this.pool;
   }
