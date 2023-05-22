@@ -188,6 +188,77 @@ router.route('/update/:id').put((req, res) => {
 });
 
 router.route('/CudUsuario').post((req, res) => {
-    res.json(Account.CudUsuario(req));
-});
+  var pagina_array = req.body.PAGINA_ARRAY;
+  
+  var perfil_array =  req.body.PERFIL_ARRAY;
+  var aplicacion_array = req.body.APLICACION_ARRAY;
+console.log(req.body)
+
+
+
+  if (req.body.IDUSUARIO != '') {
+    const data = [
+	req.body.IDROL,
+	req.body.NOMBRE,
+	req.body.APELLIDO,
+	req.body.LOGIN,
+	req.body.IDTIPODOCUMENTO,
+	req.body.NUMERODOCUMENTO,
+	req.body.TELEFONO,
+	req.body.PASSWORD,
+	req.body.EMAIL,
+	req.body.CARGO,
+	req.body.FECHACREACION,
+	req.body.ACTIVO,
+	req.body.IDUSUARIO
+    ]
+    
+    let sql = `UPDATE USUARIO
+        SET 
+        IDROL=?,
+	NOMBRE=?,
+	APELLIDO=?,
+	LOGIN=?,
+	IDTIPODOCUMENTO=?,
+	NUMERODOCUMENTO=?,
+	TELEFONO=?,
+	PASSWORD=?,
+	EMAIL=?,
+	CARGO=?,
+	FECHACREACION=?,
+	ACTIVO=? 
+	where IDUSUARIO=?`;
+        
+  
+    connection.query(sql, data, (error, results, fields) => {
+      if (error) {
+        return console.error(error.message);
+      }
+      console.log('Rows affected:', results.affectedRows);
+    res.json('ok');
+    });
+  } else {
+    const sql = 'INSERT INTO USUARIO SET ?';
+    const data = {
+        NOMBRE:req.body.NOMBRE,
+	CARGO:req.body.CARGO,
+	LOGIN:req.body.LOGIN,
+	IDROL:req.body.IDROL,
+ 	EMAIL:req.body.EMAIL,
+	IDAPLICACION:req.body.IDAPLICACION,
+	PASSWORD:req.body.PASSWORD,
+	ACTIVO:req.body.ACTIVO,
+	IDUSUARIO:req.body.IDUSUARIO
+       }
+   
+    connection.query(sql, data, (error, results, fields) => {
+      if (error) {
+        return console.error(error.message);
+      }
+      console.log('Rows affected:', results.affectedRows);
+    });
+     res.json('ok');
+  }
+})
+
 module.exports = router;

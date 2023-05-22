@@ -38,6 +38,10 @@ router.route('/ObtenerAplicacion').post((req, res) => {
   listado = [];
   var l = [];
   /*ejecuta la primera consulta asincrona */
+  console.log('=====================================')
+  console.log(sql)
+  console.log('=====================================')
+  
   pool.query(sql, async function (error, result) {
     if (error) throw error;
     if (result.length > 0) {
@@ -55,6 +59,7 @@ router.route('/ObtenerAplicacion').post((req, res) => {
         listado.push(elemento);
       }
       pool.end() /*cierra el pool de conexion*/
+      console.log(listado)
       res.json(listado);
     } else {
       res.send('no hay datos')

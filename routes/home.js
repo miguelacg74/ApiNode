@@ -26,7 +26,12 @@ router.route('/MenuAngular').post((req, res) => {
   INNER JOIN MENU  M ON M.IDMENU=P.IDMENU  AND M.IDAPLICACION='${req.body.IDAPLICACION}'
   GROUP BY P.IDPAGINA,P.NOMBRE,P.IDPADRE,P.MENU,P.RUTA,P.GENERICA,P.CSS`;
   
+  console.log('menuangular===================================')
+  
   console.log(sql)
+  
+  console.log('menuangular===================================')
+  
   resultado = connection.query(sql, function (error, results, fields) {
     if (error) throw error;
     if (results.length > 0) {

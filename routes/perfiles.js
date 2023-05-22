@@ -59,8 +59,10 @@ router.route('/ObtenerPerfil').post((req, res) => {
   /*ejecuta la primera consulta asincrona */
   
   
+  console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
   console.log(sql)
   
+  console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$')
   pool.query(sql, async function (error, result) {
     if (error) throw error;
     if (result.length > 0) {
