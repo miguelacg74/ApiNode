@@ -72,9 +72,7 @@ router.route('/login').post(async (req, res) => {
 router.route('/LogOffAngular', ).post((req, res) => {
     crudGenerico.Buscar(req, res, 'prueba', '*');
 })
-router.route('/CudRolesUsuario').post((req, res) => {
-    crudGenerico.Buscar(req, res, 'prueba', '*');
-})
+
 router.route('/ObtenerUsuarios').post((req, res) => {
 
     var filtro = '';
@@ -188,9 +186,8 @@ router.route('/update/:id').put((req, res) => {
 });
 
 router.route('/CudUsuario').post((req, res) => {
-  var pagina_array = req.body.PAGINA_ARRAY;
+  var perfil_array = req.body.PERFIL_ARRAY;
   
-  var perfil_array =  req.body.PERFIL_ARRAY;
   var aplicacion_array = req.body.APLICACION_ARRAY;
 console.log(req.body)
 
@@ -235,7 +232,7 @@ console.log(req.body)
         return console.error(error.message);
       }
       console.log('Rows affected:', results.affectedRows);
-    res.json('ok');
+    
     });
   } else {
     const sql = 'INSERT INTO USUARIO SET ?';
@@ -257,8 +254,120 @@ console.log(req.body)
       }
       console.log('Rows affected:', results.affectedRows);
     });
-     res.json('ok');
+     
   }
+  if (aplicacion_array.length > 0) {
+    for (var i = 0; i < aplicacion_array.length; i++) {
+              
+                const sqldel = 'DELETE FROM APLICACION_USUARIO WHERE ?';
+                const datadel = {
+                    IDUSUARIO:req.body.IDUSUARIO
+                   }
+               
+                connection.query(sqldel, datadel, (error, results, fields) => {
+                  if (error) {
+                    return console.error(error.message);
+                  }
+                  console.log('Rows affected:', results.affectedRows);
+                });
+
+                const sql = 'INSERT INTO APLICACION_USUARIO SET ?';
+                const data = {
+                    IDUSUARIO:req.body.IDUSUARIO,
+                    IDAPLICACION:aplicacion_array[i].IDAPLICACION,
+                   }
+                connection.query(sql, data, (error, results, fields) => {
+                  if (error) {
+                    return console.error(error.message);
+                  }
+                  console.log('Rows affected:', results.affectedRows);
+                });
+            
+    }
+  }
+
+  if (perfil_array.length > 0) {
+    for (var i = 0; i < perfil_array.length; i++) {
+        const sqldel = 'DELETE FROM ROL_USUARIO WHERE  IDUSUARIO=? AND IDAPLICACION=? AND IDROL=?';
+        const datadel = [
+            req.body.IDUSUARIO,
+            req.body.IDAPLICACION,
+            perfil_array[i].CODIGO_PERFIL,
+           
+        ]
+       
+        connection.query(sqldel, datadel, (error, results, fields) => {
+          if (error) {
+            return console.error(error.message);
+          }
+          console.log('Rows affected:', results.affectedRows);
+        });
+                const sql = 'INSERT INTO ROL_USUARIO SET ?';
+                const data = {
+                    IDROL:perfil_array[i].CODIGO_PERFIL,
+                    IDUSUARIO:req.body.IDUSUARIO,
+                    IDAPLICACION:aplicacion_array[i].IDAPLICACION,
+                   }
+                connection.query(sql, data, (error, results, fields) => {
+                  if (error) {
+                    return console.error(error.message);
+                  }
+                  console.log('Rows affected:', results.affectedRows);
+                });
+            
+
+
+    }
+  }
+  res.json('ok');
 })
 
+
+
+
+router.route('/CudRolesUsuario').post((req, res) => {
+    var perfil_array = req.body.PERFIL_ARRAY;
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+    
+console.log(perfil_array)
+console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+
+    if (perfil_array.length > 0) {
+      for (var i = 0; i < perfil_array.length; i++) {
+                  
+                  const sqldel = 'DELETE FROM ROL_USUARIO WHERE  IDUSUARIO=? AND IDAPLICACION=? AND IDROL=?';
+                  const datadel = [
+                      req.body.IDUSUARIO,
+                      req.body.IDAPLICACION,
+                      perfil_array[i].CODIGO_PERFIL,
+                     
+                  ]
+                 
+                  connection.query(sqldel, datadel, (error, results, fields) => {
+                    if (error) {
+                      return console.error(error.message);
+                    }
+                    console.log('Rows affected:', results.affectedRows);
+                  });
+  
+                  const sql = 'INSERT INTO ROL_USUARIO SET ?';
+                  const data = {
+                      IDROL:perfil_array[i].CODIGO_PERFIL,
+                      IDUSUARIO:req.body.IDUSUARIO,
+                      IDAPLICACION:req.body.IDAPLICACION,
+                     }
+                  connection.query(sql, data, (error, results, fields) => {
+                    if (error) {
+                      return console.error(error.message);
+                    }
+                    console.log('Rows affected:', results.affectedRows);
+                  });
+              
+  
+  
+      }
+    }
+    res.json('ok');
+  })
+  
 module.exports = router;
