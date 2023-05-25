@@ -257,19 +257,22 @@ console.log(req.body)
      
   }
   if (aplicacion_array.length > 0) {
+    
+    const sqldel = 'DELETE FROM APLICACION_USUARIO WHERE ?';
+    const datadel = {
+        IDUSUARIO:req.body.IDUSUARIO
+       }
+   
+    connection.query(sqldel, datadel, (error, results, fields) => {
+      if (error) {
+        return console.error(error.message);
+      }
+      console.log('Rows affected:', results.affectedRows);
+    });
+    
     for (var i = 0; i < aplicacion_array.length; i++) {
               
-                const sqldel = 'DELETE FROM APLICACION_USUARIO WHERE ?';
-                const datadel = {
-                    IDUSUARIO:req.body.IDUSUARIO
-                   }
-               
-                connection.query(sqldel, datadel, (error, results, fields) => {
-                  if (error) {
-                    return console.error(error.message);
-                  }
-                  console.log('Rows affected:', results.affectedRows);
-                });
+     
 
                 const sql = 'INSERT INTO APLICACION_USUARIO SET ?';
                 const data = {
